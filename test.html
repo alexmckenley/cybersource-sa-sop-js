@@ -1,14 +1,15 @@
 <html>
-<head>
-    <link rel="stylesheet" type="text/css" href="payment.css"/>
 
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="payment_form.js"></script>
+<head>
+  <link rel="stylesheet" type="text/css" href="payment.css" />
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script type="text/javascript" src="payment_form.js"></script>
 </head>
+
 <body>
-<form id="payment_form" action="https://testsecureacceptance.cybersource.com/silent/pay" method="post">
+  <form id="payment_form" action="https://testsecureacceptance.cybersource.com/silent/pay" method="post">
     <input type="hidden" id="access_key" value="3b1bd8115ebc3b28b3b90d1a1bcba789">
     <input type="hidden" id="profile_id" value="TEST123">
     <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="">
@@ -17,81 +18,76 @@
     <input type="hidden" id="signed_date_time" value="">
     <input type="hidden" id="locale" value="en">
     <fieldset>
-        <legend>Payment Details</legend>
-        <div id="paymentDetailsSection" class="section">
-            <span>transaction_type:</span><input type="text" id="transaction_type" size="25"><br/>
-            <span>reference_number:</span><input type="text" id="reference_number" size="25"><br/>
-            <span>amount:</span><input type="text" id="amount" size="25"><br/>
-            <span>currency:</span><input type="text" id="currency" size="25"><br/>
-            <span>payment_method:</span><input type="text" id="payment_method"><br/>
-            <span>card_type:</span><input type="text" id="card_type"><br/>
-            <span>card_number:</span><input type="text" id="card_number"><br/>
-            <span>card_expiry_date:</span><input type="text" id="card_expiry_date"><br/>
-            <span>bill_to_forename:</span><input type="text" id="bill_to_forename"><br/>
-            <span>bill_to_surname:</span><input type="text" id="bill_to_surname"><br/>
-            <span>bill_to_email:</span><input type="text" id="bill_to_email"><br/>
-            <span>bill_to_phone:</span><input type="text" id="bill_to_phone"><br/>
-            <span>bill_to_address_line1:</span><input type="text" id="bill_to_address_line1"><br/>
-            <span>bill_to_address_city:</span><input type="text" id="bill_to_address_city"><br/>
-            <span>bill_to_address_state:</span><input type="text" id="bill_to_address_state"><br/>
-            <span>bill_to_address_country:</span><input type="text" id="bill_to_address_country"><br/>
-            <span>bill_to_address_postal_code:</span><input type="text" id="bill_to_address_postal_code"><br/>
-        </div>
+      <legend>Payment Details</legend>
+      <div id="paymentDetailsSection" class="section">
+        <span>transaction_type:</span><input type="text" id="transaction_type" size="25"><br/>
+        <span>reference_number:</span><input type="text" id="reference_number" size="25"><br/>
+        <span>amount:</span><input type="text" id="amount" size="25"><br/>
+        <span>currency:</span><input type="text" id="currency" size="25"><br/>
+        <span>payment_method:</span><input type="text" id="payment_method"><br/>
+        <span>card_type:</span><input type="text" id="card_type"><br/>
+        <span>card_number:</span><input type="text" id="card_number"><br/>
+        <span>card_expiry_date:</span><input type="text" id="card_expiry_date"><br/>
+        <span>bill_to_forename:</span><input type="text" id="bill_to_forename"><br/>
+        <span>bill_to_surname:</span><input type="text" id="bill_to_surname"><br/>
+        <span>bill_to_email:</span><input type="text" id="bill_to_email"><br/>
+        <span>bill_to_phone:</span><input type="text" id="bill_to_phone"><br/>
+        <span>bill_to_address_line1:</span><input type="text" id="bill_to_address_line1"><br/>
+        <span>bill_to_address_city:</span><input type="text" id="bill_to_address_city"><br/>
+        <span>bill_to_address_state:</span><input type="text" id="bill_to_address_state"><br/>
+        <span>bill_to_address_country:</span><input type="text" id="bill_to_address_country"><br/>
+        <span>bill_to_address_postal_code:</span><input type="text" id="bill_to_address_postal_code"><br/>
+      </div>
     </fieldset>
     <input type="submit" id="submit" value="Submit"/>
-</form>
+  </form>
 
-<script>
-	var dateString = function(){
-		var d = new Date();
-		d = d.toISOString();
-		return d.substring(0, 19) + 'Z';
-	};
+  <script>
+    var dateString = function () {
+      var d = new Date();
+      d = d.toISOString();
+      return d.substring(0, 19) + 'Z';
+    };
 
-	var display = function(item){
-		$('body').text(item.toString());
-	};
+    var display = function (item) {
+      $('body').text(item.toString());
+    };
 
-	$(document).ready(function(){
-		$('#payment_form').submit(function(event){
-            //event.preventDefault();
-
-
-            $('input').each(function(item){
-                $(this).attr('name', $(this).attr('id'));
-            });
+    $(document).ready(function () {
+      $('#payment_form').submit(function (event) {
+        //event.preventDefault();
 
 
-            //update time
-            $("#signed_date_time").val(dateString);
-            $("#transaction_uuid").val(Math.floor(Math.random() * 100000000));
-            console.log($("#signed_date_time").val());
-            //$("#reference_number").val(Math.floor(Math.random() * 100000000));
-
-			var signedFieldNames = $('#signed_field_names').val().split(",");
-            var dataToSign = [];
-            signedFieldNames.forEach(function(item){
-                dataToSign.push(item + "=" + $('#' + item).val());
-            });
-            dataToSign = dataToSign.join(",");
-            //console.log(dataToSign);
-
-            var secretKey = "ff46aa116e3d41fb88c47aac014040dbb422b207c1cc42dc9792136ae279c359f506d2d2859140ff9abeefcd255e9b4e1f60e4e1c1294e8e9795a56a3e13a2e4960b816aa4ec4b26b9ce192db3b3724a88bdc4a99cbe4badb46309aa644f5af39585ae95b6a84a28a582715466773dc3cd96593656614c47b943848909c774bd"
-            var signature = $('<input/>').attr('id', 'signature').attr('type', 'hidden').attr('name', 'signature');
-            signature.val( CryptoJS.HmacSHA256(dataToSign, secretKey).toString(CryptoJS.enc.Base64));
-            
-            $('#payment_form').prepend(signature);
-            //console.log($("#signature").val());
+        $('input').each(function (item) {
+          $(this).attr('name', $(this).attr('id'));
+        });
 
 
-		});
-	});
+        //update time
+        $("#signed_date_time").val(dateString);
+        $("#transaction_uuid").val(Math.floor(Math.random() * 100000000));
+        console.log($("#signed_date_time").val());
+        //$("#reference_number").val(Math.floor(Math.random() * 100000000));
 
+        var signedFieldNames = $('#signed_field_names').val().split(",");
+        var dataToSign = [];
+        signedFieldNames.forEach(function (item) {
+          dataToSign.push(item + "=" + $('#' + item).val());
+        });
+        dataToSign = dataToSign.join(",");
+        //console.log(dataToSign);
 
+        var secretKey = "ff46aa116e3d41fb88c47aac014040dbb422b207c1cc42dc9792136ae279c359f506d2d2859140ff9abeefcd255e9b4e1f60e4e1c1294e8e9795a56a3e13a2e4960b816aa4ec4b26b9ce192db3b3724a88bdc4a99cbe4badb46309aa644f5af39585ae95b6a84a28a582715466773dc3cd96593656614c47b943848909c774bd"
+        var signature = $('<input/>').attr('id', 'signature').attr('type', 'hidden').attr('name', 'signature');
+        signature.val(CryptoJS.HmacSHA256(dataToSign, secretKey).toString(CryptoJS.enc.Base64));
 
-</script>
+        $('#payment_form').prepend(signature);
+        //console.log($("#signature").val());
 
-
+      });
+    });
+  </script>
 
 </body>
+
 </html>

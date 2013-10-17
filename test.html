@@ -65,6 +65,7 @@
             //update time
             $("#signed_date_time").val(dateString);
             $("#transaction_uuid").val(Math.floor(Math.random() * 100000000));
+            console.log($("#signed_date_time").val());
             //$("#reference_number").val(Math.floor(Math.random() * 100000000));
 
 			var signedFieldNames = $('#signed_field_names').val().split(",");
@@ -85,6 +86,7 @@
 
 		});
 	});
+
 
 
 </script>

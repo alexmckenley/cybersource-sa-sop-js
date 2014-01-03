@@ -52,7 +52,7 @@ function setDefaultsForPaymentDetailsSection() {
     $("input[id='bill_to_address_postal_code']").val("94043");
 }
 
-//For compatibaility with IE versions older than 9.
+//shims
 if ( !Date.prototype.toISOString ) {
   ( function() {
     

@@ -10,11 +10,11 @@
 </head>
 
 <body>
-  <form id="payment_form" action="https://testsecureacceptance.cybersource.com/silent/pay" method="post">
+  <form id="payment_form" action="https://testsecureacceptance.cybersource.com/token/update" method="post">
     <input type="hidden" id="access_key" value="3b1bd8115ebc3b28b3b90d1a1bcba789">
     <input type="hidden" id="profile_id" value="TEST123">
     <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="">
-    <input type="hidden" id="signed_field_names" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_method,card_type,card_number,card_expiry_date,bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code">
+    <input type="hidden" id="signed_field_names" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,payment_token">
     <input type="hidden" id="unsigned_field_names">
     <input type="hidden" id="signed_date_time" value="">
     <input type="hidden" id="locale" value="en">
@@ -22,13 +22,16 @@
       <legend>Payment Details</legend>
       <div id="paymentDetailsSection" class="section">
         <span>transaction_type:</span><select name="transaction_type" id="transaction_type">
+        <option value="create_payment_token">create_payment_token</option>
         <option value="authorization">authorization</option>
         <option value="sale">sale</option>
-        <option value="create_payment_token">create_payment_token</option>
         <option value="authorization,create_payment_token">authorization,create_payment_token</option>
-      </select><br/>
+        <option value="update_payment_token">update_payment_token</option>
+        </select><br/>
         <span>reference_number:</span><input type="text" id="reference_number" size="25"><br/>
-        <span>amount:</span><input type="text" id="amount" size="25"><br/>
+
+        <span>payment_Token:</span><input type="text" id="payment_token" size="25"><br/>
+<!--         <span>amount:</span><input type="text" id="amount" size="25"><br/>
         <span>currency:</span><input type="text" id="currency" size="25"><br/>
         <span>payment_method:</span><input type="text" id="payment_method"><br/>
         <span>card_type:</span><input type="text" id="card_type"><br/>
@@ -42,7 +45,7 @@
         <span>bill_to_address_city:</span><input type="text" id="bill_to_address_city"><br/>
         <span>bill_to_address_state:</span><input type="text" id="bill_to_address_state"><br/>
         <span>bill_to_address_country:</span><input type="text" id="bill_to_address_country"><br/>
-        <span>bill_to_address_postal_code:</span><input type="text" id="bill_to_address_postal_code"><br/>
+        <span>bill_to_address_postal_code:</span><input type="text" id="bill_to_address_postal_code"><br/> -->
       </div>
     </fieldset>
     <input type="submit" id="submit" value="Submit"/>
@@ -69,8 +72,7 @@
 
 
         //insert current time
-        $("#signed_date_time").val(dateString());
-
+        $("#signed_date_time").val(dateString);
         //generate unique transaction id
         $("#transaction_uuid").val(Math.floor(Math.random() * 100000000));
         console.log($("#signed_date_time").val());

@@ -63,7 +63,7 @@
     $(document).ready(function () {
 
       //Submit button event handler
-      $('#submit').click(function (event) {
+      $('#payment_form').submit(function (event) {
         //event.preventDefault(); //Debug
 
         //add 'name' attr to all input items
@@ -91,7 +91,7 @@
         var signature = $('<input/>').attr('id', 'signature').attr('type', 'hidden').attr('name', 'signature');
         //console.log(dataToSign);
         signature.val(CryptoJS.HmacSHA256(dataToSign, secretKey).toString(CryptoJS.enc.Base64));
-        console.log(signature.val());
+        //console.log(signature.val());
         //prepend the signature field to the form 
         $('#payment_form').prepend(signature);
 

@@ -10,11 +10,11 @@
 </head>
 
 <body>
-  <form id="payment_form" action="https://testsecureacceptance.cybersource.com/token/update" method="post">
+  <form id="payment_form" action="https://testsecureacceptance.cybersource.com/token/create" method="post">
     <input type="hidden" id="access_key" value="3b1bd8115ebc3b28b3b90d1a1bcba789">
     <input type="hidden" id="profile_id" value="TEST123">
     <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="">
-    <input type="hidden" id="signed_field_names" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,payment_token">
+    <input type="hidden" id="signed_field_names" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,payment_token,currency">
     <input type="hidden" id="unsigned_field_names">
     <input type="hidden" id="signed_date_time" value="">
     <input type="hidden" id="locale" value="en">
@@ -31,6 +31,7 @@
         <span>reference_number:</span><input type="text" id="reference_number" size="25"><br/>
 
         <span>payment_Token:</span><input type="text" id="payment_token" size="25"><br/>
+        <span>currency:</span><input type="text" id="currency" size="25"><br/>
 <!--         <span>amount:</span><input type="text" id="amount" size="25"><br/>
         <span>currency:</span><input type="text" id="currency" size="25"><br/>
         <span>payment_method:</span><input type="text" id="payment_method"><br/>
@@ -62,7 +63,7 @@
     $(document).ready(function () {
 
       //Submit button event handler
-      $('#payment_form').submit(function (event) {
+      $('#submit').click(function (event) {
         //event.preventDefault(); //Debug
 
         //add 'name' attr to all input items
@@ -75,7 +76,7 @@
         $("#signed_date_time").val(dateString);
         //generate unique transaction id
         $("#transaction_uuid").val(Math.floor(Math.random() * 100000000));
-        console.log($("#signed_date_time").val());
+        //console.log($("#signed_date_time").val());
     
         //create data to sign
         var signedFieldNames = $('#signed_field_names').val().split(",");
@@ -88,12 +89,14 @@
 
         var secretKey = "ff46aa116e3d41fb88c47aac014040dbb422b207c1cc42dc9792136ae279c359f506d2d2859140ff9abeefcd255e9b4e1f60e4e1c1294e8e9795a56a3e13a2e4960b816aa4ec4b26b9ce192db3b3724a88bdc4a99cbe4badb46309aa644f5af39585ae95b6a84a28a582715466773dc3cd96593656614c47b943848909c774bd"
         var signature = $('<input/>').attr('id', 'signature').attr('type', 'hidden').attr('name', 'signature');
+        //console.log(dataToSign);
         signature.val(CryptoJS.HmacSHA256(dataToSign, secretKey).toString(CryptoJS.enc.Base64));
-
+        console.log(signature.val());
         //prepend the signature field to the form 
         $('#payment_form').prepend(signature);
 
         //Post to CyberSource
+        //$("#submit").submit();
       });
     });
   </script>
